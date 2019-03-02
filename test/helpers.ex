@@ -24,4 +24,8 @@ defmodule Helpers do
     {:ok, file} = File.read("test/fixtures/introducing-elixir.jpg")
     file
   end
+
+  def snap(_body, %{url: url} = opts) do
+    Crawler.Store.add_page_data(url, "Custom snapper", opts)
+  end
 end

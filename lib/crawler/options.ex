@@ -17,6 +17,7 @@ defmodule Crawler.Options do
   @modifier   Crawler.Fetcher.Modifier
   @scraper    Crawler.Scraper
   @parser     Crawler.Parser
+  @snapper    Crawler.Snapper
   @encode_uri false
   @save_body true
 
@@ -50,8 +51,9 @@ defmodule Crawler.Options do
       modifier:   modifier(),
       scraper:    scraper(),
       parser:     parser(),
+      snapper:    snapper(),
       encode_uri: encode_uri(),
-      save_body: save_body()
+      save_body:  save_body()
     }, opts)
   end
 
@@ -88,6 +90,7 @@ defmodule Crawler.Options do
   defp modifier,   do: Application.get_env(:crawler, :modifier,   @modifier)
   defp scraper,    do: Application.get_env(:crawler, :scraper,    @scraper)
   defp parser,     do: Application.get_env(:crawler, :parser,     @parser)
+  defp snapper,    do: Application.get_env(:crawler, :snapper,    @snapper)
   defp encode_uri, do: Application.get_env(:crawler, :encode_uri, @encode_uri)
-  defp save_body, do: Application.get_env(:crawler, :encode_uri, @save_body)
+  defp save_body, do: Application.get_env(:crawler, :encode_uri,  @save_body)
 end

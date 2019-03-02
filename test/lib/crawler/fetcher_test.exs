@@ -11,7 +11,7 @@ defmodule Crawler.FetcherTest do
     def perform(fetch_url, _opts), do: fetch_url.()
   end
 
-  @defaults %{depth: 0, url_filter: UrlFilter, modifier: Modifier, retrier: DummyRetrier, html_tag: "a"}
+  @defaults %{depth: 0, url_filter: UrlFilter, modifier: Modifier, retrier: DummyRetrier, html_tag: "a", snapper: Crawler.Snapper}
 
   test "success", %{bypass: bypass, url: url} do
     url = "#{url}/fetcher/200"
@@ -107,6 +107,23 @@ defmodule Crawler.FetcherTest do
 
     wait fn ->
       assert {:ok, "<html>200</html>"} == File.read(tmp("fetcher/#{path}/fetcher", "page.html"))
+    end
+  end
+
+  test "custom snap /fetcher/custom_snap.html", %{bypass: bypass, url: url} do
+    url = "#{url}/fetcher/custom_snap.html"
+
+    Bypass.expect_once bypass, "GET", "/fetcher/custom_snap.html", fn (conn) ->
+      Plug.Conn.resp(conn, 200, "<html>200</html>")
+    end
+
+    @defaults
+    |> Map.merge(%{url: url, save_to: true, snapper: Helpers})
+    |> Fetcher.fetch
+
+    wait fn ->
+      page = Store.find(url)
+      assert page.body == "Custom snapper"
     end
   end
 end

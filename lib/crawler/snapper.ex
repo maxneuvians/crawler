@@ -5,6 +5,20 @@ defmodule Crawler.Snapper do
 
   alias __MODULE__.{LinkReplacer, DirMaker}
 
+  defmodule Spec do
+    @moduledoc """
+    Spec for defining a Snapper.
+    """
+
+    @type body :: String.t
+    @type opts :: map
+
+    @callback snap(body, opts) :: {:ok, opts}
+    @callback snap({:error, term}) :: :ok
+  end
+
+  @behaviour __MODULE__.Spec
+
   @doc """
   In order to store pages offline, it provides the following functionalities:
 

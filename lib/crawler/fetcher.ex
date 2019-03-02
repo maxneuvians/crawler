@@ -4,7 +4,7 @@ defmodule Crawler.Fetcher do
   """
 
   alias __MODULE__.{Policer, Recorder, Requester, HeaderPreparer}
-  alias Crawler.{Snapper, Store.Page}
+  alias Crawler.{Store.Page}
 
   @doc """
   Fetches a URL by:
@@ -57,7 +57,7 @@ defmodule Crawler.Fetcher do
 
   defp snap_page(body, opts) do
     if opts[:save_to] do
-      Snapper.snap(body, opts)
+      opts[:snapper].snap(body, opts)
     else
       {:ok, ""}
     end
