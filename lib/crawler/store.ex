@@ -48,8 +48,12 @@ defmodule Crawler.Store do
   end
 
   @doc """
-  Adds the page data for a URL to the registry.
+  Adds the page data for a URL to the registry. Only saves the body if the
+  save_body option is set to true.
   """
+  def add_page_data(url, _body, %{save_body: false} = opts) do
+    {_new, _old} = Registry.update_value(DB, url, & %{&1 | opts: opts})
+  end
   def add_page_data(url, body, opts) do
     {_new, _old} = Registry.update_value(DB, url, & %{&1 | body: body, opts: opts})
   end
