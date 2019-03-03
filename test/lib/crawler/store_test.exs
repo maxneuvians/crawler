@@ -3,11 +3,6 @@ defmodule Crawler.StoreTest do
 
   alias Crawler.Store
 
-  setup do
-    Store.init
-    :ok
-  end
-
   test "save_body set to true writes the body to the store" do
     Store.add("foo")
     Store.add_page_data("foo", "bar", %{save_body: true})

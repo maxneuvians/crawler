@@ -13,7 +13,9 @@ defmodule Crawler do
   - a `Crawler.Store` that initiates a `Registry` for keeping internal data
   """
   def start(_type, _args) do
-    {:ok, _pid} = Store.init()
+    Store.init()
+    opts = [strategy: :one_for_one, name: RegistrySample.Supervisor]
+    Supervisor.start_link([], opts)
   end
 
   @doc """
