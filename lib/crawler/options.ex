@@ -92,5 +92,5 @@ defmodule Crawler.Options do
   defp parser,     do: Application.get_env(:crawler, :parser,     @parser)
   defp snapper,    do: Application.get_env(:crawler, :snapper,    @snapper)
   defp encode_uri, do: Application.get_env(:crawler, :encode_uri, @encode_uri)
-  defp save_body, do: Application.get_env(:crawler, :encode_uri,  @save_body)
+  defp save_body,  do: Application.get_env(:crawler, :save_body,  @save_body)
 end

@@ -41,7 +41,7 @@ defmodule Crawler.Store do
     case find(url) do
       %{processed: true} = page -> page
       _ -> nil
-    end 
+    end
   end
 
   @doc """
@@ -61,6 +61,7 @@ defmodule Crawler.Store do
     :ets.insert(DB, {url, %{page | opts: opts}})
     {:ok, true}
   end
+
   def add_page_data(url, body, opts) do
     page = find(url)
     :ets.insert(DB, {url, %{page | body: body, opts: opts}})
@@ -74,5 +75,14 @@ defmodule Crawler.Store do
     page = find(url)
     :ets.insert(DB, {url, %{page | processed: true}})
     {:ok, true}
+  end
+
+  @doc """
+  Returns all the processed urls.
+  """
+  def urls() do
+    list()
+    |> Stream.filter(fn {_url, page} -> page.processed end)
+    |> Enum.map(fn {url, _page} -> url end)
   end
 end
